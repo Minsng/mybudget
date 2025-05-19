@@ -1,0 +1,28 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/mybudget?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: 1234
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+
+mybatis:
+  mapper-locations: classpath:/mapper/**/*.xml #XML ?? ?? ?? ??
+  type-aliases-package: com.example.mybudget.domain #VO/DTO ??? ??
+  configuration:
+    map-underscore-to-camel-case: true
+
+jwt:
+  secret: mybudget-secret-key-2024  # ?? ?????? ???? ?? ?? ????? ?? # JWT ?? ??? ??? ?
+  expiration: 3600000               # 1?? (???) # JWT ?? ?? ?? (ms ??)
+
+logging:
+  level:
+    root: INFO
+    com.example.mybudget: DEBUG
