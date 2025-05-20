@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mybudget.mapper.UserMapper">
+    <insert id="insertUser">
+        INSERT INTO USERS (
+                           EMAIL,
+                           PASSWORD,
+                           NICKNAME,
+                           CREATED_AT
+        ) VALUES (
+                  #{email},
+                  #{password},
+                  #{nickname},
+                  NOW()
+        )
+    </insert>
+    <select id="findByEmail" resultType="com.example.mybudget.domain.User">
+        SELECT EMAIL,
+               PASSWORD,
+               NICKNAME,
+               CREATED_AT
+          FROM USERS
+         WHERE EMAIL = #{email}
+    </select>
+</mapper>
