@@ -17,15 +17,20 @@
 <script setup>
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/store/authStore'
+import { computed } from 'vue'
 
 const router = useRouter()
 const authStore = useAuthStore()
-const { isLoggedIn, logout } = authStore
+
+const isLoggedIn = computed(() => authStore.isLoggedIn)
 
 const handleAuthAction = () => {
-  if (isLoggedIn) {
-    logout()
+  if (isLoggedIn.value) {
+    authStore.logout()
+    location.reload()
+  } else {
+    router.push('/login')
   }
-  router.push('/login')
 }
 </script>
+

@@ -4,10 +4,23 @@ import { ref } from 'vue'
 import api from '@/axios'
 
 export const useAuthStore = defineStore('auth', () => {
-    const token = ref(localStorage.getItem('token') || '')
-    const isLoggedIn = ref(!!token.value)
-    const email = ref(localStorage.getItem('email') || '')
-    const nickname = ref(localStorage.getItem('nickname') || '')
+    const token = ref('')
+    const isLoggedIn = ref(false)
+    const email = ref('')
+    const nickname = ref('')
+
+    // ✅ 정의 즉시 localStorage에서 로그인 상태 복원
+    const loadFromStorage = () => {
+        const savedToken = localStorage.getItem('token')
+        if (savedToken) {
+            token.value = savedToken
+            email.value = localStorage.getItem('email') || ''
+            nickname.value = localStorage.getItem('nickname') || ''
+            isLoggedIn.value = true
+        }
+    }
+
+    loadFromStorage() // ✅ store 정의 시 즉시 실행됨
 
     const login = async ({ email: userEmail, password }) => {
         try {
