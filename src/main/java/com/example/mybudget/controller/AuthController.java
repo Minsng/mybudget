@@ -25,9 +25,13 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
         // 예시: 이메일이 test@test.com 이고 비번이 1234이면 성공
-        if ("tjdalstmd033@naver.com".equals(request.getEmail()) && "1234".equals(request.getPassword())) {
+        if ("test@test.com".equals(request.getEmail()) && "1234".equals(request.getPassword())) {
             String dummyToken = "jwt-token-example-1234"; // 여기에 진짜 JWT 생성 로직 들어감
-            return ResponseEntity.ok().body(Map.of("token", dummyToken));
+            return ResponseEntity.ok(Map.of(
+                    "token", dummyToken,
+                    "email", request.getEmail(),
+                    "nickname", "테스터"
+            ));
         } else {
             return ResponseEntity.status(401).body("이메일 또는 비밀번호가 틀렸습니다.");
         }

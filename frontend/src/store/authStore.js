@@ -6,20 +6,22 @@ import api from '@/axios'
 export const useAuthStore = defineStore('auth', () => {
     const token = ref(localStorage.getItem('token') || '')
     const isLoggedIn = ref(!!token.value)
+    const email = ref(localStorage.getItem('email') || '')
+    const nickname = ref(localStorage.getItem('nickname') || '')
 
-    const login = async ({ email, password }) => {
+    const login = async ({ email: userEmail, password }) => {
         try {
-            // ✅ baseURL: '/api'라면 경로에 /auth/login
-            const response = await api.post('/auth/login', { email, password })
-
-            // ✅ JWT 토큰 응답 확인
-            if (!response.data.token) throw new Error('토큰 없음')
-
+            const response = await api.post('/auth/login', { email: userEmail, password })
             token.value = response.data.token
+            email.value = response.data.email
+            nickname.value = response.data.nickname
+
             localStorage.setItem('token', token.value)
+            localStorage.setItem('email', email.value)
+            localStorage.setItem('nickname', nickname.value)
+
             isLoggedIn.value = true
         } catch (error) {
-            console.error('로그인 실패:', error.response?.data || error.message)
             throw new Error('로그인 실패')
         }
     }
@@ -27,12 +29,16 @@ export const useAuthStore = defineStore('auth', () => {
     const logout = () => {
         token.value = ''
         isLoggedIn.value = false
-        localStorage.removeItem('token')
+        email.value = ''
+        nickname.value = ''
+        localStorage.clear()
     }
 
     return {
         token,
         isLoggedIn,
+        email,
+        nickname,
         login,
         logout,
     }
