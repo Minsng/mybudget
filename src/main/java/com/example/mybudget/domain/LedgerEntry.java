@@ -2,6 +2,7 @@ package com.example.mybudget.domain;
 
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -11,6 +12,6 @@ public class LedgerEntry {
     private String type;
     private int amount;
     private String memo;
-    private LocalDateTime date;
-    private LedgerEntry createdAt;
+    private LocalDate date;
+    private LocalDateTime createdAt;
 }

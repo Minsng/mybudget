@@ -8,4 +8,5 @@ import java.util.List;
 @Mapper
 public interface LedgerMapper {
     List<LedgerEntry> findByUserId(long userId);
+    void insertLedgerEntry(LedgerEntry ledgerEntry);
 }
