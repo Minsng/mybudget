@@ -4,7 +4,7 @@
 
 <mapper namespace="com.example.mybudget.mapper.UserMapper">
     <insert id="insertUser">
-        INSERT INTO USERS (
+        INSERT INTO USER (
                            EMAIL,
                            PASSWORD,
                            NICKNAME,
@@ -16,12 +16,19 @@
                   NOW()
         )
     </insert>
-    <select id="findByEmail" resultType="com.example.mybudget.domain.User">
-        SELECT EMAIL,
+    <select id="findUserByEmail" resultType="com.example.mybudget.domain.User">
+        SELECT ID,
+               EMAIL,
                PASSWORD,
                NICKNAME,
                CREATED_AT
-          FROM USERS
+          FROM USER
          WHERE EMAIL = #{email}
+    </select>
+    <select id="findUserByEmailAndPassword" resultType="com.example.mybudget.domain.User">
+        SELECT *
+          FROM USER
+         WHERE EMAIL = #{email}
+           AND PASSWORD = #{password}
     </select>
 </mapper>

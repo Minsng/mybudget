@@ -1,7 +1,9 @@
 package com.example.mybudget.controller;
 
+import com.example.mybudget.domain.User;
 import com.example.mybudget.dto.LoginRequest;
 import com.example.mybudget.dto.UserSignupRequest;
+import com.example.mybudget.security.JwtUtil;
 import com.example.mybudget.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import java.util.Map;
 public class AuthController {
 
     private final UserService userService;
+    private final JwtUtil jwtUtil;
 
     @PostMapping("/signup")
     public ResponseEntity<?> signUp(@RequestBody UserSignupRequest request) {
@@ -24,16 +27,16 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest request) {
-        // 예시: 이메일이 test@test.com 이고 비번이 1234이면 성공
-        if ("test@test.com".equals(request.getEmail()) && "1234".equals(request.getPassword())) {
-            String dummyToken = "jwt-token-example-1234"; // 여기에 진짜 JWT 생성 로직 들어감
-            return ResponseEntity.ok(Map.of(
-                    "token", dummyToken,
-                    "email", request.getEmail(),
-                    "nickname", "테스터"
-            ));
-        } else {
+        User user = userService.findUserByEmailAndPassword(request.getEmail(), request.getPassword());
+        if (user == null) {
             return ResponseEntity.status(401).body("이메일 또는 비밀번호가 틀렸습니다.");
         }
+        String token = jwtUtil.generateToken(user.getEmail());
+        return ResponseEntity.ok(Map.of(
+                "token", token,
+                "email", user.getEmail(),
+                "nickname", user.getNickname()
+        ));
     }
+
 }

@@ -9,7 +9,6 @@ export const useAuthStore = defineStore('auth', () => {
     const email = ref('')
     const nickname = ref('')
 
-    // ✅ 정의 즉시 localStorage에서 로그인 상태 복원
     const loadFromStorage = () => {
         const savedToken = localStorage.getItem('token')
         if (savedToken) {
@@ -20,11 +19,10 @@ export const useAuthStore = defineStore('auth', () => {
         }
     }
 
-    loadFromStorage() // ✅ store 정의 시 즉시 실행됨
-
     const login = async ({ email: userEmail, password }) => {
         try {
             const response = await api.post('/auth/login', { email: userEmail, password })
+
             token.value = response.data.token
             email.value = response.data.email
             nickname.value = response.data.nickname
@@ -35,6 +33,7 @@ export const useAuthStore = defineStore('auth', () => {
 
             isLoggedIn.value = true
         } catch (error) {
+            console.error(error)
             throw new Error('로그인 실패')
         }
     }
@@ -46,6 +45,9 @@ export const useAuthStore = defineStore('auth', () => {
         nickname.value = ''
         localStorage.clear()
     }
+
+    // 초기 실행 시 자동 복원
+    loadFromStorage()
 
     return {
         token,
