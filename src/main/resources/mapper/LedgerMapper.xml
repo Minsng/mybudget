@@ -5,11 +5,17 @@
 
 <mapper namespace="com.example.mybudget.mapper.LedgerMapper">
 
-    <select id="findByUserId" resultType="com.example.mybudget.domain.LedgerEntry">
+    <select id="findByUserIdAndDateRange" resultType="com.example.mybudget.domain.LedgerEntry">
         SELECT *
           FROM LEDGER
          WHERE USER_ID = #{userId}
-         ORDER BY date DESC
+        <if test="start != null and start != ''">
+            AND DATE &gt;= #{start}
+        </if>
+        <if test="end != null and end != ''">
+            AND DATE &lt;= #{end}
+        </if>
+        ORDER BY CREATED_AT DESC
     </select>
 
     <insert id="insertLedgerEntry" parameterType="com.example.mybudget.domain.LedgerEntry" useGeneratedKeys="true" keyProperty="id">

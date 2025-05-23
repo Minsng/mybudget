@@ -19,9 +19,13 @@ public class LedgerController {
     private final LedgerService ledgerService;
 
     @GetMapping
-    public ResponseEntity<List<LedgerEntry>> getLedger(@AuthenticationPrincipal CustomUserDetails userDetails) {
+    public ResponseEntity<List<LedgerEntry>> getLedger(
+            @AuthenticationPrincipal CustomUserDetails userDetails,
+            @RequestParam(required = false) String start,
+            @RequestParam(required = false) String end
+    ) {
         Long userId = userDetails.getUser().getId();
-        return ResponseEntity.ok(ledgerService.getEntriesByUserId(userId));
+        return ResponseEntity.ok(ledgerService.getEntriesByUserId(userId, start, end));
     }
 
     @PostMapping

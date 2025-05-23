@@ -2,12 +2,15 @@ package com.example.mybudget.mapper;
 
 import com.example.mybudget.domain.LedgerEntry;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 @Mapper
 public interface LedgerMapper {
-    List<LedgerEntry> findByUserId(long userId);
+    List<LedgerEntry> findByUserIdAndDateRange(@Param("userId") Long userId,
+                                               @Param("start") String start,
+                                               @Param("end") String end);
     void insertLedgerEntry(LedgerEntry ledgerEntry);
     int deleteLedgerEntryById(long id);
     LedgerEntry findById(long id);

@@ -14,8 +14,8 @@ public class LedgerService {
 
     private final LedgerMapper ledgerMapper;
 
-    public List<LedgerEntry> getEntriesByUserId(Long userId) {
-        return ledgerMapper.findByUserId(userId);
+    public List<LedgerEntry> getEntriesByUserId(Long userId, String start, String end) {
+        return ledgerMapper.findByUserIdAndDateRange(userId, start, end);
     }
 
     public void addLedgerEntry(Long userId, LedgerEntryInsertRequest request) {
