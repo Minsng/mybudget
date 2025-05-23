@@ -28,8 +28,27 @@ public class LedgerController {
     public ResponseEntity<?> addLedgerEntry(@AuthenticationPrincipal CustomUserDetails userDetails,
                                             @RequestBody LedgerEntryInsertRequest request) {
         Long userId = userDetails.getUser().getId();
-        ledgerService.addEntry(userId, request);
+        ledgerService.addLedgerEntry(userId, request);
 
         return ResponseEntity.ok("항목 추가 완료");
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteLedgerEntry(@PathVariable Long id,
+                                   @AuthenticationPrincipal CustomUserDetails userDetails) {
+        Long userId = userDetails.getUser().getId();
+        ledgerService.deleteLedgerEntry(id, userId);
+        return ResponseEntity.ok("삭제 완료");
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateLedgerEntry(@PathVariable Long id,
+                                               @RequestBody LedgerEntryInsertRequest request,
+                                               @AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        Long userId = userDetails.getUser().getId();
+        ledgerService.updateLedgerEntry(id, userId, request);
+        return ResponseEntity.ok("수정 완료");
+    }
+
 }

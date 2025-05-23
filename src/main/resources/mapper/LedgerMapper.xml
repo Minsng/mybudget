@@ -30,4 +30,21 @@
                          )
     </insert>
 
+    <delete id="deleteLedgerEntryById">
+        DELETE FROM LEDGER WHERE ID = #{id}
+    </delete>
+
+    <select id="findById" resultType="com.example.mybudget.domain.LedgerEntry">
+        SELECT * FROM LEDGER WHERE ID = #{id}
+    </select>
+
+    <update id="updateLedgerEntry">
+        UPDATE ledger
+           SET type = #{type},
+               amount = #{amount},
+               memo = #{memo},
+               date = #{date}
+         WHERE id = #{id}
+    </update>
+
 </mapper>

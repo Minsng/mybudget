@@ -9,4 +9,7 @@ import java.util.List;
 public interface LedgerMapper {
     List<LedgerEntry> findByUserId(long userId);
     void insertLedgerEntry(LedgerEntry ledgerEntry);
+    int deleteLedgerEntryById(long id);
+    LedgerEntry findById(long id);
+    void updateLedgerEntry(LedgerEntry ledgerEntry);
 }
