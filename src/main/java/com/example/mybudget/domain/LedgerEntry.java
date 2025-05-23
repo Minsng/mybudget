@@ -14,4 +14,7 @@ public class LedgerEntry {
     private String memo;
     private LocalDate date;
     private LocalDateTime createdAt;
+
+    private Long categoryId;
+    private String categoryName;
 }

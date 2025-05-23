@@ -3,22 +3,36 @@
     <div class="modal-content p-4 bg-white rounded shadow">
       <h5 class="mb-3">가계부 항목 수정</h5>
       <form @submit.prevent="handleUpdate">
+        <!-- 항목 구분 -->
         <div class="mb-2">
           <select v-model="form.type" class="form-select" required>
-            <option disabled value="">선택</option>
+            <option disabled value="">항목 구분</option>
             <option value="income">수입</option>
             <option value="expense">지출</option>
           </select>
         </div>
+
+        <!-- 카테고리 선택 -->
         <div class="mb-2">
-          <input v-model.number="form.amount" type="number" class="form-control" placeholder="금액" required />
+          <select v-model="form.categoryId" class="form-select" required>
+            <option disabled value="">카테고리 선택</option>
+            <option v-for="c in categories" :key="c.id" :value="c.id">
+              [{{ c.type === 'INCOME' ? '수입' : '지출' }}] {{ c.name }}
+            </option>
+          </select>
+        </div>
+
+        <!-- 금액 / 날짜 / 메모 -->
+        <div class="mb-2">
+          <input v-model.number="form.amount" type="number" class="form-control" required />
         </div>
         <div class="mb-2">
           <input v-model="form.date" type="date" class="form-control" required />
         </div>
         <div class="mb-3">
-          <input v-model="form.memo" type="text" class="form-control" placeholder="메모" />
+          <input v-model="form.memo" type="text" class="form-control" />
         </div>
+
         <div class="d-flex gap-2">
           <button type="submit" class="btn btn-primary w-100">수정</button>
           <button type="button" class="btn btn-secondary w-100" @click="close">취소</button>
@@ -29,28 +43,34 @@
 </template>
 
 <script setup>
-import { reactive, watch } from 'vue'
+import { ref, reactive, watch, onMounted } from 'vue'
 import api from '@/axios'
 
 const props = defineProps({
-  entry: Object, // LedgerPage로부터 전달된 수정할 항목
+  entry: Object
 })
-
 const emit = defineEmits(['close', 'updated'])
 
 const form = reactive({
-  id: null,
   type: '',
+  categoryId: '',
   amount: null,
   memo: '',
   date: ''
 })
 
-// 기존 entry 값으로 form 초기화
+const categories = ref([])
+
+const loadCategories = async () => {
+  const res = await api.get('/categories')
+  categories.value = res.data
+}
+
+// entry를 받아서 form 초기화
 watch(() => props.entry, (newEntry) => {
   if (newEntry) {
-    form.id = newEntry.id
     form.type = newEntry.type
+    form.categoryId = newEntry.categoryId
     form.amount = newEntry.amount
     form.memo = newEntry.memo
     form.date = newEntry.date
@@ -59,7 +79,13 @@ watch(() => props.entry, (newEntry) => {
 
 const handleUpdate = async () => {
   try {
-    await api.put(`/ledger/${form.id}`, form)
+    await api.put(`/ledger/${props.entry.id}`, {
+      type: form.type,
+      amount: form.amount,
+      memo: form.memo,
+      date: form.date,
+      categoryId: form.categoryId
+    })
     emit('updated')
     close()
   } catch (e) {
@@ -68,6 +94,8 @@ const handleUpdate = async () => {
 }
 
 const close = () => emit('close')
+
+onMounted(loadCategories)
 </script>
 
 <style scoped>

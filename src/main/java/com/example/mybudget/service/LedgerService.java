@@ -25,6 +25,7 @@ public class LedgerService {
         entry.setAmount(request.getAmount());
         entry.setMemo(request.getMemo());
         entry.setDate(request.getDate());
+        entry.setCategoryId(request.getCategoryId());
 
         ledgerMapper.insertLedgerEntry(entry);
     }
@@ -46,6 +47,7 @@ public class LedgerService {
         entry.setAmount(request.getAmount());
         entry.setMemo(request.getMemo());
         entry.setDate(request.getDate());
+        entry.setCategoryId(request.getCategoryId());
         ledgerMapper.updateLedgerEntry(entry);
     }
 }

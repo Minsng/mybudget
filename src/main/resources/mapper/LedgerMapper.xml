@@ -5,17 +5,31 @@
 
 <mapper namespace="com.example.mybudget.mapper.LedgerMapper">
 
-    <select id="findByUserIdAndDateRange" resultType="com.example.mybudget.domain.LedgerEntry">
-        SELECT *
-          FROM LEDGER
-         WHERE USER_ID = #{userId}
+    <resultMap id="LedgerEntryResultMap" type="com.example.mybudget.domain.LedgerEntry">
+        <id property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="type" column="type"/>
+        <result property="amount" column="amount"/>
+        <result property="memo" column="memo"/>
+        <result property="date" column="date"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="categoryName" column="category_name"/>
+        <result property="createdAt" column="created_at"/>
+    </resultMap>
+
+
+    <select id="findByUserIdAndDateRange" resultMap="LedgerEntryResultMap">
+        SELECT le.*, c.name AS category_name
+        FROM ledger le
+        LEFT JOIN category c ON le.category_id = c.id
+        WHERE le.user_id = #{userId}
         <if test="start != null and start != ''">
-            AND DATE &gt;= #{start}
+            AND le.date &gt;= #{start}
         </if>
         <if test="end != null and end != ''">
-            AND DATE &lt;= #{end}
+            AND le.date &lt;= #{end}
         </if>
-        ORDER BY CREATED_AT DESC
+        ORDER BY le.date DESC
     </select>
 
     <insert id="insertLedgerEntry" parameterType="com.example.mybudget.domain.LedgerEntry" useGeneratedKeys="true" keyProperty="id">
@@ -25,6 +39,7 @@
                             AMOUNT,
                             MEMO,
                             DATE,
+                            CATEGORY_ID,
                             CREATED_AT
         ) VALUES (
                   #{userId},
@@ -32,6 +47,7 @@
                   #{amount},
                   #{memo},
                   #{date},
+                  #{categoryId},
                   NOW()
                          )
     </insert>
@@ -49,7 +65,8 @@
            SET type = #{type},
                amount = #{amount},
                memo = #{memo},
-               date = #{date}
+               date = #{date},
+               CATEGORY_ID = #{categoryId}
          WHERE id = #{id}
     </update>
 

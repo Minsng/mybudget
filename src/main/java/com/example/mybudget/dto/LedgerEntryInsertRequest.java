@@ -10,4 +10,6 @@ public class LedgerEntryInsertRequest {
     private int amount;
     private String memo;
     private LocalDate date;
+
+    private Long categoryId;
 }
