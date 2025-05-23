@@ -1,17 +1,16 @@
-<!-- frontend/src/components/auth/LoginForm.vue -->
 <template>
   <div class="d-flex justify-content-center align-items-center min-vh-100 bg-light">
     <div class="card shadow p-4" style="width: 100%; max-width: 400px;">
-      <h2 class="text-center text-success mb-4">가계부 로그인</h2>
+      <h3 class="text-center text-success fw-bold mb-4">로그인</h3>
 
       <form @submit.prevent="handleLogin">
         <div class="mb-3">
           <label for="email" class="form-label">이메일</label>
           <input
               type="email"
-              class="form-control"
               id="email"
               v-model="email"
+              class="form-control"
               placeholder="example@email.com"
               required
           />
@@ -21,15 +20,15 @@
           <label for="password" class="form-label">비밀번호</label>
           <input
               type="password"
-              class="form-control"
               id="password"
               v-model="password"
+              class="form-control"
               placeholder="비밀번호를 입력하세요"
               required
           />
         </div>
 
-        <div v-if="error" class="alert alert-danger py-2">{{ error }}</div>
+        <div v-if="error" class="alert alert-danger py-2 small">{{ error }}</div>
 
         <button type="submit" class="btn btn-success w-100" :disabled="loading">
           {{ loading ? '로그인 중...' : '로그인' }}
@@ -62,7 +61,6 @@ const error = ref('')
 const handleLogin = async () => {
   loading.value = true
   error.value = ''
-
   try {
     await authStore.login({ email: email.value, password: password.value })
     router.push('/ledger')

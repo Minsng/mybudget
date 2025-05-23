@@ -1,8 +1,7 @@
-<!-- frontend/src/pages/SignUpPage.vue -->
 <template>
   <div class="d-flex justify-content-center align-items-center vh-100 bg-light">
-    <div class="card shadow p-4" style="width: 100%; max-width: 400px">
-      <h3 class="text-center mb-3">회원가입</h3>
+    <div class="card shadow p-4" style="width: 100%; max-width: 400px;">
+      <h3 class="text-center fw-bold mb-4">회원가입</h3>
 
       <form @submit.prevent="handleSignUp">
         <div class="mb-3">
@@ -45,7 +44,7 @@ const handleSignUp = async () => {
     await api.post('/auth/signup', {
       email: email.value,
       nickname: nickname.value,
-      password: password.value,
+      password: password.value
     })
     alert('회원가입 완료! 로그인 페이지로 이동합니다.')
     router.push('/login')
