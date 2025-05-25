@@ -10,6 +10,15 @@
       </div>
     </div>
 
+    <!-- 총합 요약 표시 -->
+    <div class="card p-3 mb-4 bg-light">
+      <div class="d-flex justify-content-between fw-semibold">
+        <div>수입 예산: <span class="text-success">{{ incomeTotal.toLocaleString() }}원</span></div>
+        <div>지출 예산: <span class="text-danger">{{ expenseTotal.toLocaleString() }}원</span></div>
+        <div>차액: <span>{{ (incomeTotal - expenseTotal).toLocaleString() }}원</span></div>
+      </div>
+    </div>
+
     <!-- 카테고리별 입력 -->
     <div class="table-responsive mb-4">
       <table class="table table-bordered align-middle">
@@ -50,6 +59,7 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue'
 import api from '@/axios'
+import { computed } from 'vue'
 
 const selectedMonth = ref(new Date().toISOString().slice(0, 7)) // 'YYYY-MM'
 const categoryList = ref([])
@@ -103,6 +113,24 @@ const saveBudgets = async () => {
     alert('예산 저장 실패')
   }
 }
+
+const incomeTotal = computed(() =>
+    categoryList.value.reduce((sum, cat) => {
+      if (cat.type === 'INCOME') {
+        return sum + (budgetInputs.value[cat.id] || 0)
+      }
+      return sum
+    }, 0)
+)
+
+const expenseTotal = computed(() =>
+    categoryList.value.reduce((sum, cat) => {
+      if (cat.type === 'EXPENSE') {
+        return sum + (budgetInputs.value[cat.id] || 0)
+      }
+      return sum
+    }, 0)
+)
 
 // 월 변경 시 예산 다시 불러오기
 watch(selectedMonth, () => {

@@ -48,7 +48,16 @@
         <tbody>
         <tr v-for="entry in entries" :key="entry.id">
           <td>{{ entry.date }}</td>
-          <td>{{ entry.categoryName }}</td>
+          <td>
+            {{ entry.categoryName }}
+            <span
+                v-if="
+                  entry.type === 'expense' &&
+                  categorySpendMap[entry.categoryId] > (budgetMap[entry.categoryId] || Infinity)
+                "
+                class="badge bg-danger ms-2"
+            >⚠️ 초과</span>
+          </td>
           <td>{{ entry.memo || '(메모 없음)' }}</td>
           <td class="text-end fw-semibold" :class="entry.type === 'income' ? 'text-success' : 'text-danger'">
             {{ entry.amount.toLocaleString() }}원
@@ -67,10 +76,8 @@
       </table>
     </div>
 
-    <!-- 항목이 없을 때 -->
     <div v-else class="text-center text-muted py-5">등록된 항목이 없습니다.</div>
 
-    <!-- 모달 컴포넌트 -->
     <LedgerAddModal v-if="showAddModal" @close="showAddModal = false" @added="fetchEntries" />
     <LedgerEditModal v-if="showEditModal" :entry="editingEntry" @close="showEditModal = false" @updated="fetchEntries" />
   </div>
@@ -91,6 +98,18 @@ const showAddModal = ref(false)
 const showEditModal = ref(false)
 const editingEntry = ref(null)
 
+const budgetMap = ref({})
+const categorySpendMap = computed(() => {
+  const map = {}
+  entries.value
+      .filter(e => e.type === 'expense')
+      .forEach(e => {
+        const cid = e.categoryId
+        map[cid] = (map[cid] || 0) + e.amount
+      })
+  return map
+})
+
 const filter = reactive({
   startDate: '',
   endDate: ''
@@ -108,6 +127,19 @@ const incomeTotal = computed(() =>
 const expenseTotal = computed(() =>
     entries.value.filter(e => e.type === 'expense').reduce((sum, e) => sum + e.amount, 0)
 )
+
+const fetchBudgets = async () => {
+  try {
+    const nowMonth = new Date().toISOString().slice(0, 7)
+    const res = await api.get('/budget', { params: { month: nowMonth } })
+    budgetMap.value = {}
+    res.data.forEach(b => {
+      budgetMap.value[b.categoryId] = b.amount
+    })
+  } catch (e) {
+    console.warn('예산 정보 불러오기 실패')
+  }
+}
 
 const fetchEntries = async () => {
   try {
@@ -137,5 +169,8 @@ const editEntry = (entry) => {
   showEditModal.value = true
 }
 
-onMounted(fetchEntries)
+onMounted(() => {
+  fetchBudgets()
+  fetchEntries()
+})
 </script>
