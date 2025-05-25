@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mybudget.mapper.BudgetMapper">
+
+    <select id="findByUserIdAndMonth" resultType="com.example.mybudget.domain.Budget">
+        SELECT b.*, c.name AS categoryName, c.type AS categoryType
+        FROM budget b
+                 JOIN category c ON b.category_id = c.id
+        WHERE b.user_id = #{userId}
+          AND b.month = #{month}
+    </select>
+
+    <select id="findOne" resultType="com.example.mybudget.domain.Budget">
+        SELECT * FROM budget
+        WHERE user_id = #{userId}
+                  AND category_id = #{categoryId}
+                  AND month = #{month}
+    </select>
+
+    <insert id="insertBudget">
+        INSERT INTO budget (user_id, category_id, month, amount)
+        VALUES (#{userId}, #{categoryId}, #{month}, #{amount})
+    </insert>
+
+    <update id="updateBudget">
+        UPDATE budget
+        SET amount = #{amount}
+        WHERE user_id = #{userId}
+                  AND category_id = #{categoryId}
+                  AND month = #{month}
+    </update>
+
+</mapper>

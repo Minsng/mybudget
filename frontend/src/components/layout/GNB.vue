@@ -11,6 +11,13 @@
         >
           가계부
         </router-link>
+        <router-link
+            class="nav-link text-white me-3"
+            :class="{ active: isActive('/budget') }"
+            to="/budget"
+        >
+          예산 설정
+        </router-link>
 
         <button @click="handleAuthAction" class="btn btn-outline-light btn-sm">
           {{ isLoggedIn ? '로그아웃' : '로그인' }}

@@ -19,7 +19,13 @@ const routes = [
         path: '/ledger',
         name: 'Ledger',
         component: () => import('@/pages/LedgerPage.vue'),
-        meta: { requiresAuth: true }, // ✅ 보호 필요
+        meta: { requiresAuth: true },
+    },
+    {
+        path: '/budget',
+        name: 'BudgetPage',
+        component: () => import('@/pages/BudgetPage.vue'),
+        meta: { requiresAuth: true }
     },
     {
         path: '/',
