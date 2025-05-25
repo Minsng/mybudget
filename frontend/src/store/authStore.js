@@ -2,12 +2,14 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import api from '@/axios'
+import { jwtDecode } from 'jwt-decode'
 
 export const useAuthStore = defineStore('auth', () => {
     const token = ref('')
     const isLoggedIn = ref(false)
     const email = ref('')
     const nickname = ref('')
+    const expiresAt = ref(null) // ⬅️ 추가
 
     const loadFromStorage = () => {
         const savedToken = localStorage.getItem('token')
@@ -15,6 +17,7 @@ export const useAuthStore = defineStore('auth', () => {
             token.value = savedToken
             email.value = localStorage.getItem('email') || ''
             nickname.value = localStorage.getItem('nickname') || ''
+            expiresAt.value = parseInt(localStorage.getItem('expiresAt')) || null
             isLoggedIn.value = true
         }
     }
@@ -27,9 +30,15 @@ export const useAuthStore = defineStore('auth', () => {
             email.value = response.data.email
             nickname.value = response.data.nickname
 
+            // 🔐 JWT decode 후 exp 계산
+            const decoded = jwtDecode(response.data.token)
+            expiresAt.value = decoded.exp * 1000 // 초 → 밀리초
+
+            // 저장
             localStorage.setItem('token', token.value)
             localStorage.setItem('email', email.value)
             localStorage.setItem('nickname', nickname.value)
+            localStorage.setItem('expiresAt', expiresAt.value)
 
             isLoggedIn.value = true
         } catch (error) {
@@ -43,10 +52,10 @@ export const useAuthStore = defineStore('auth', () => {
         isLoggedIn.value = false
         email.value = ''
         nickname.value = ''
+        expiresAt.value = null
         localStorage.clear()
     }
 
-    // 초기 실행 시 자동 복원
     loadFromStorage()
 
     return {
@@ -54,6 +63,7 @@ export const useAuthStore = defineStore('auth', () => {
         isLoggedIn,
         email,
         nickname,
+        expiresAt, // ⬅️ 꼭 return!
         login,
         logout,
     }
