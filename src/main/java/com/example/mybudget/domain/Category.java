@@ -1,4 +1,4 @@
-package com.example.mybudget.dto;
+package com.example.mybudget.domain;
 
 import lombok.Data;
 

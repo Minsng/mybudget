@@ -28,6 +28,12 @@ const routes = [
         meta: { requiresAuth: true }
     },
     {
+        path: '/report',
+        name: 'ReportPage',
+        component: () => import('@/pages/ReportPage.vue'),
+        meta: { requiresAuth: true }
+    },
+    {
         path: '/',
         redirect: '/login',
     },

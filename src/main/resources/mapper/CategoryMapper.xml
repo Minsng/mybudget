@@ -5,7 +5,7 @@
 
 <mapper namespace="com.example.mybudget.mapper.CategoryMapper">
 
-    <select id="findAllCategories" resultType="com.example.mybudget.dto.Category">
+    <select id="findAllCategories" resultType="com.example.mybudget.domain.Category">
         SELECT id, name, type
           FROM category
         ORDER BY type, id

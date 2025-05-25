@@ -2,10 +2,12 @@ package com.example.mybudget.service;
 
 import com.example.mybudget.domain.LedgerEntry;
 import com.example.mybudget.dto.LedgerEntryInsertRequest;
+import com.example.mybudget.dto.LedgerReportResponse;
 import com.example.mybudget.mapper.LedgerMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -49,5 +51,11 @@ public class LedgerService {
         entry.setDate(request.getDate());
         entry.setCategoryId(request.getCategoryId());
         ledgerMapper.updateLedgerEntry(entry);
+    }
+
+    public List<LedgerReportResponse> getMonthlyReport(Long userId, String month) {
+        String startDate = month + "-01";
+        LocalDate end = LocalDate.parse(startDate).withDayOfMonth(LocalDate.parse(startDate).lengthOfMonth());
+        return ledgerMapper.getMonthlyReport(userId, startDate, end.toString());
     }
 }

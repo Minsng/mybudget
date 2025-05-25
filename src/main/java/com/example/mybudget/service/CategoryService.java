@@ -1,6 +1,6 @@
 package com.example.mybudget.service;
 
-import com.example.mybudget.dto.Category;
+import com.example.mybudget.domain.Category;
 import com.example.mybudget.mapper.CategoryMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

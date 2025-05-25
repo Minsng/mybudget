@@ -70,4 +70,13 @@
          WHERE id = #{id}
     </update>
 
+    <select id="getMonthlyReport" resultType="com.example.mybudget.dto.LedgerReportResponse">
+        SELECT c.name AS category, SUM(l.amount) AS amount
+        FROM ledger l
+                 JOIN category c ON l.category_id = c.id
+        WHERE l.user_id = #{userId}
+          AND l.date BETWEEN #{startDate} AND #{endDate}
+        GROUP BY c.name
+    </select>
+
 </mapper>

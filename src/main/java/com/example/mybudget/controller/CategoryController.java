@@ -1,6 +1,6 @@
 package com.example.mybudget.controller;
 
-import com.example.mybudget.dto.Category;
+import com.example.mybudget.domain.Category;
 import com.example.mybudget.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

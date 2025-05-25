@@ -2,6 +2,7 @@ package com.example.mybudget.controller;
 
 import com.example.mybudget.domain.LedgerEntry;
 import com.example.mybudget.dto.LedgerEntryInsertRequest;
+import com.example.mybudget.dto.LedgerReportResponse;
 import com.example.mybudget.security.CustomUserDetails; // 사용 중이라면
 import com.example.mybudget.service.LedgerService;
 import lombok.RequiredArgsConstructor;
@@ -53,6 +54,16 @@ public class LedgerController {
         Long userId = userDetails.getUser().getId();
         ledgerService.updateLedgerEntry(id, userId, request);
         return ResponseEntity.ok("수정 완료");
+    }
+
+    @GetMapping("/report")
+    public ResponseEntity<List<LedgerReportResponse>> getLedgerReport(
+            @RequestParam String month,
+            @AuthenticationPrincipal CustomUserDetails userDetails) {
+
+        Long userId = userDetails.getUser().getId();
+        List<LedgerReportResponse> report = ledgerService.getMonthlyReport(userId, month);
+        return ResponseEntity.ok(report);
     }
 
 }

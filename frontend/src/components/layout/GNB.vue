@@ -21,6 +21,13 @@
         >
           예산 설정
         </router-link>
+        <router-link
+            class="nav-link text-white"
+            :class="{ active: isActive('/report') }"
+            to="/report"
+        >
+          통계
+        </router-link>
       </div>
 
       <!-- 우측: 로그인 정보 + 버튼 -->

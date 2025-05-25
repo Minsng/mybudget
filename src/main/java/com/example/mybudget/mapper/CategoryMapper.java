@@ -1,6 +1,6 @@
 package com.example.mybudget.mapper;
 
-import com.example.mybudget.dto.Category;
+import com.example.mybudget.domain.Category;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
