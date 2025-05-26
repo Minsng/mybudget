@@ -50,7 +50,7 @@ const router = createRouter({
     routes,
 })
 
-// 보호 라우팅 로직
+// 보호라우팅
 router.beforeEach((to, from, next) => {
     const authStore = useAuthStore()
 

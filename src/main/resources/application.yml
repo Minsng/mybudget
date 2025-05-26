@@ -17,14 +17,14 @@ spring:
       fail-on-empty-beans: false
 
 mybatis:
-  mapper-locations: classpath:/mapper/**/*.xml #XML ?? ?? ?? ??
-  type-aliases-package: com.example.mybudget.domain #VO/DTO ??? ??
+  mapper-locations: classpath:/mapper/**/*.xml
+  type-aliases-package: com.example.mybudget.domain
   configuration:
     map-underscore-to-camel-case: true
 
 jwt:
-  secret: mybudget-secret-key-2024  # ?? ?????? ???? ?? ?? ????? ?? # JWT ?? ??? ??? ?
-  expiration: 3600000               # 1?? (???) # JWT ?? ?? ?? (ms ??)
+  secret: mybudget-secret-key-2024
+  expiration: 3600000
 
 logging:
   level:

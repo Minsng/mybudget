@@ -2,10 +2,10 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-success px-3">
     <div class="container-fluid d-flex justify-content-between align-items-center">
 
-      <!-- 좌측: 로고 -->
+      <!-- 로고 -->
       <router-link class="navbar-brand" to="/ledger">MyBudget</router-link>
 
-      <!-- 가운데: 메뉴 -->
+      <!-- 메뉴 -->
       <div class="d-flex gap-3 mx-auto">
         <router-link
             class="nav-link text-white"
@@ -37,7 +37,7 @@
         </router-link>
       </div>
 
-      <!-- 우측: 로그인 정보 + 버튼 -->
+      <!-- 로그인 정보 + 버튼 -->
       <div class="d-flex align-items-center">
         <div v-if="isLoggedIn" class="text-white me-3 text-end small">
           <div>{{ authStore.nickname }} 님</div>

@@ -63,7 +63,7 @@ export const useAuthStore = defineStore('auth', () => {
         isLoggedIn,
         email,
         nickname,
-        expiresAt, // ⬅️ 꼭 return!
+        expiresAt,
         login,
         logout,
     }

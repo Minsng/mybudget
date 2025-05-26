@@ -13,6 +13,7 @@ public class JwtUtil {
     private final String secretKey = "MySuperSecretKeyForJwtMustBeLongEnough1234"; // 최소 32자
     private final long expirationMs = 1000 * 60 * 60; // 1시간
 
+    // HMAC SHA-256
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(secretKey.getBytes());
     }

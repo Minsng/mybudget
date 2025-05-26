@@ -46,7 +46,7 @@ const fetchData = async () => {
 
     renderCharts()
   } catch (error) {
-    console.error('❌ Axios 에러:', error)
+    console.error('Axios 에러:', error)
     incomeData.value = []
     expenseData.value = []
   }
