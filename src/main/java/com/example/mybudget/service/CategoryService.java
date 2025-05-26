@@ -16,4 +16,16 @@ public class CategoryService {
     public List<Category> getAllCategories() {
         return categoryMapper.findAllCategories();
     }
+
+    public void addCategory(Category category) {
+        categoryMapper.insertCategory(category);
+    }
+
+    public void updateCategory(Category category) {
+        categoryMapper.updateCategory(category);
+    }
+
+    public void deleteCategory(Long id) {
+        categoryMapper.deleteCategory(id);
+    }
 }

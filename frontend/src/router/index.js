@@ -34,6 +34,12 @@ const routes = [
         meta: { requiresAuth: true }
     },
     {
+        path: '/category',
+        name: 'CategoryPage',
+        component: () => import('@/pages/CategoryPage.vue'),
+        meta: { requiresAuth: true }
+    },
+    {
         path: '/',
         redirect: '/login',
     },

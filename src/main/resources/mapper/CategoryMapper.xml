@@ -11,5 +11,21 @@
         ORDER BY type, id
     </select>
 
+    <insert id="insertCategory">
+        INSERT INTO category (name, type)
+        VALUES (#{name}, #{type})
+    </insert>
+
+    <update id="updateCategory">
+        UPDATE category
+        SET name = #{name}, type = #{type}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteCategory">
+        DELETE FROM category
+        WHERE id = #{id}
+    </delete>
+
 
 </mapper>

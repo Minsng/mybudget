@@ -6,4 +6,5 @@ import lombok.Data;
 public class LedgerReportResponse {
     private String category;
     private int amount;
+    private String type;
 }

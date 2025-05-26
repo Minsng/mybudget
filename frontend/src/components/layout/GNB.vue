@@ -23,6 +23,13 @@
         </router-link>
         <router-link
             class="nav-link text-white"
+            :class="{ active: isActive('/category') }"
+            to="/category"
+        >
+          카테고리 설정
+        </router-link>
+        <router-link
+            class="nav-link text-white"
             :class="{ active: isActive('/report') }"
             to="/report"
         >
