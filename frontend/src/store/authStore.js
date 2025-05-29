@@ -9,7 +9,7 @@ export const useAuthStore = defineStore('auth', () => {
     const isLoggedIn = ref(false)
     const email = ref('')
     const nickname = ref('')
-    const expiresAt = ref(null) // ⬅️ 추가
+    const expiresAt = ref(null)
 
     const loadFromStorage = () => {
         const savedToken = localStorage.getItem('token')
